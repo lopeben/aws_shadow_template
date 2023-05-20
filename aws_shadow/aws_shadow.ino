@@ -152,7 +152,7 @@ void checkWiFiThenReboot(void) {
 }
 
 
-void sendData(bool data) {
+void sendData(int data) {
 
     DynamicJsonDocument jsonBuffer(JSON_OBJECT_SIZE(3) + 100);
 
@@ -187,7 +187,7 @@ void createShadowDocumentThenSend(void){
     state_reported["value"] = false;
 	
 	//Debug out
-    Serial.printf("Sending  [%s]: ", MQTT_DATA_PUBTOPIC);
+    Serial.printf("Sending  [%s]: ", MQTT_SHADOW_UPDATE_PUBTOPIC);
     serializeJson(root, Serial);
     Serial.println();
     
