@@ -89,6 +89,7 @@ void pubSubErr(int8_t MQTTErr) {
         Serial.print("Connect unauthorized");
 }
 
+
 void connectToMqtt(bool nonBlocking = false) {
 
     Serial.print("MQTT connecting ");
@@ -112,6 +113,7 @@ void connectToMqtt(bool nonBlocking = false) {
     }
 }
 
+
 void connectToWiFi(String init_str) {
 
     if (init_str != emptyString)
@@ -123,6 +125,7 @@ void connectToWiFi(String init_str) {
     if (init_str != emptyString)
         Serial.println("ok!");
 }
+
 
 void checkWiFiThenMQTT(void) {
 
@@ -140,12 +143,14 @@ void checkWiFiThenMQTTNonBlocking(void) {
     }
 }
 
+
 void checkWiFiThenReboot(void) {
 
     connectToWiFi("Checking WiFi");
     Serial.print("Rebooting");
     ESP.restart();
 }
+
 
 void sendData(bool data) {
 
@@ -203,9 +208,9 @@ void messageReceived(char *topic, byte *payload, unsigned int length) {
         Serial.print((char)payload[i]);
     }
 
-    // sendData(true);
     Serial.println();
 }
+
 
 void setup(void)
 {
@@ -255,7 +260,7 @@ void loop(void)
         if (millis() - lastMillis > TXINTERVAL_MS) {
             lastMillis = millis();
             int raw_sensor_value = analogRead(A0);
-            // sendData(raw_sensor_value);
+            sendData(raw_sensor_value);
     }
   }
 }
