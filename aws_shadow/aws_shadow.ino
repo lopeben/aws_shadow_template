@@ -161,7 +161,7 @@ void sendData(int data) {
     JsonObject state_reported = state.createNestedObject("reported");
     state_reported["value"] = data;
     
-    Serial.printf("Sending  [%s]: ", MQTT_DATA_PUBTOPIC);
+    Serial.printf("\nSending  [%s]: ", MQTT_DATA_PUBTOPIC);
     serializeJson(root, Serial);
     Serial.println();
     
@@ -208,12 +208,22 @@ void messageReceived(char *topic, byte *payload, unsigned int length) {
         Serial.print((char)payload[i]);
     }
 
+    if (strcmp(topic, MQTT_SHADOW_UPDATE_DELTA_SUBTOPIC) == 0) {
+        digitalWrite(LED_BUILTIN, LOW);  // Turn the LED off by making the voltage HIGH
+    }else{
+
+    }
+
     Serial.println();
 }
 
 
 void setup(void)
 {
+
+    pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
+    digitalWrite(LED_BUILTIN, HIGH);
+
     Serial.begin(115200);
     delay(5000);
 
@@ -240,9 +250,9 @@ void setup(void)
         Serial.println("Error subscribing1");
     }
 
-    if (!client.subscribe(MQTT_SHADOW_UPDATE_ACCEPTED_SUBTOPIC)) {
-        Serial.println("Error subscribing2");
-    }
+    // if (!client.subscribe(MQTT_SHADOW_UPDATE_ACCEPTED_SUBTOPIC)) {
+    //     Serial.println("Error subscribing2");
+    // }
 
     createShadowDocumentThenSend();
 }
